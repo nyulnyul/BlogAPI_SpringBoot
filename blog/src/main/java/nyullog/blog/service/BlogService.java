@@ -1,7 +1,9 @@
 package nyullog.blog.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import nyullog.blog.DTO.AddArticleRequest;
+import nyullog.blog.DTO.UpdateArticleRequest;
 import nyullog.blog.domain.Article;
 import nyullog.blog.repository.BlogRepository;
 import org.springframework.stereotype.Service;
@@ -24,4 +26,16 @@ public class BlogService {
     public Article findById(long id){
         return blogRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("not found: "+id)); //jparepository의 findById 메소드를 사용해 데이터 조회 없으면 예외 처리
     }
+    public void delete(long id){
+        blogRepository.deleteById(id); //jparepository의 deleteById 메소드를 사용해 데이터 삭제
+    }
+
+    @Transactional //매칭한 메서드를 하나의 트렌젝션으로 묶는 역할 + 트렌젝션이란 데이터 베이스의 데이터를 바꾸기 위해 묶은 작업 단위
+    //입금은 되는데 출금은 안되는 상황을 맊기 위해 입금과 출금을 한 단위로 실행해 둘중 하나라도 안되면 되돌리는 것
+    public Article update(long id, UpdateArticleRequest request){
+        Article article = blogRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("not found: " + id));
+        article.update(request.getTitle(), request.getContent());
+        return article;
+    }
+
 }

@@ -3,6 +3,7 @@ package nyullog.blog.controller;
 import lombok.RequiredArgsConstructor;
 import nyullog.blog.DTO.AddArticleRequest;
 import nyullog.blog.DTO.ArticleResponse;
+import nyullog.blog.DTO.UpdateArticleRequest;
 import nyullog.blog.domain.Article;
 import nyullog.blog.service.BlogService;
 import org.springframework.http.ResponseEntity;
@@ -38,5 +39,18 @@ public class BlogApiController {
     public ResponseEntity<ArticleResponse> findArticle(@PathVariable long id){ //path의 {id}에 있는 값이 id로 들어옴
         Article article = blogService.findById(id);
         return ResponseEntity.ok().body(new ArticleResponse(article)); //요청된 자원 조회 성공되었으며 글 정보를 응답 객체에 담아 전송
+    }
+
+    @DeleteMapping("/api/article/{id}")
+    public ResponseEntity<Void> deleteArticle(@PathVariable long id){
+        blogService.delete(id);
+        return ResponseEntity.ok().build(); //요청된 자원 삭제 성공
+    }
+
+    @PutMapping("/api/article/{id}")
+    public ResponseEntity<Article> updateArticle(@PathVariable long id, @RequestBody UpdateArticleRequest request){
+        Article updateArticle = blogService.update(id, request);
+
+        return ResponseEntity.ok().body(updateArticle);
     }
 }
