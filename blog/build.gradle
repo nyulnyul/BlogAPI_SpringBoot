@@ -29,6 +29,12 @@ dependencies {
 	//lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	//spring security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	//spring security thymeleaf
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+	//spring security test
+	testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {
