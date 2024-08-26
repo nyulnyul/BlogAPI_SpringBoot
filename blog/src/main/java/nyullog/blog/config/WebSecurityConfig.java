@@ -35,7 +35,7 @@ public class WebSecurityConfig {
         return http.authorizeRequests(auth -> auth //3. 특정 경로에따른 엑세스 설정 requestMatchers: 특정 요청 일치 url 엑세스 설정
                         .requestMatchers( //authorizeRequests 메소드를 사용해 요청에 대한 접근 권한을 설정
                                 new AntPathRequestMatcher("/login"),  //AntPathRequestMatcher를 사용해 요청 경로를 지정
-                                new AntPathRequestMatcher("signup"),
+                                new AntPathRequestMatcher("/signup"),
                                 new AntPathRequestMatcher("/user")
                         ).permitAll().anyRequest().authenticated() //permitAll :누구나 접근 가능하게 설정
                 // anyRequest(): 위에서 설정 url이와 요청 설정
