@@ -1,11 +1,10 @@
-package nyullog.blog.config.jwt;
+package nyullog.blog.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
-import nyullog.blog.config.JwtProperties;
 import nyullog.blog.domain.User;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -42,7 +41,7 @@ public class TokenProvider {
 
     //2, 토큰 유효성 검증 메소드로 jwtProperties에 선언한 비밀값과 함께 복호화 진행
 
-    public boolean validToken(String token) {
+    public boolean vaildToken(String token) {
         try {
             Jwts.parser()
                     .setSigningKey(jwtProperties.getSecretKey())
@@ -77,4 +76,6 @@ public class TokenProvider {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
+
 }
