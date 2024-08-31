@@ -29,10 +29,14 @@ public class User implements UserDetails { //스프링 시큐리티에서 사용
     @Column(name = "password")
     private String password;//컬럼 이름 지정
 
+    @Column(name = "nickname", unique = true)
+    private String nickname;
+
     @Builder //빌더 패턴이란 객체를 생성할 때 사용되는 패턴이며 객체 생성 시 매개변수가 많을 경우 사용하면 편리
-    public User(String email, String password, String auth){
+    public User(String email, String password, String nickname){
         this.email = email;
         this.password = password;
+        this.nickname = nickname;
     }
 
     @Override
@@ -64,5 +68,12 @@ public class User implements UserDetails { //스프링 시큐리티에서 사용
     public boolean isEnabled() {
         return true;//사용가능
     }
+
+    public User update(String nickname){
+        this.nickname = nickname;
+        return this;
+    }
+
+
 
 }
