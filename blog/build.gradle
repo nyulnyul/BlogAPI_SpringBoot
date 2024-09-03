@@ -43,7 +43,7 @@ dependencies {
 
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 	//OAuth2
-//	implementation 'org.springframework.security:spring-security-oauth2-client'
+	implementation 'org.springframework.security:spring-security-oauth2-client'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 

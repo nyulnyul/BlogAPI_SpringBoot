@@ -6,6 +6,7 @@ import nyullog.blog.DTO.AddArticleRequest;
 import nyullog.blog.DTO.UpdateArticleRequest;
 import nyullog.blog.domain.Article;
 import nyullog.blog.repository.BlogRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +16,8 @@ import java.util.List;
 public class BlogService {
     private final BlogRepository blogRepository;
 
-    public Article save(AddArticleRequest request){
-        return blogRepository.save(request.toEntity()); //jparepository의 save 메소드를 사용해 데이터 저장
+    public Article save(AddArticleRequest request, String userName){
+        return blogRepository.save(request.toEntity(userName)); //jparepository의 save 메소드를 사용해 데이터 저장
     }
 
     public List<Article> findAll(){
@@ -27,7 +28,16 @@ public class BlogService {
         return blogRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("not found: "+id)); //jparepository의 findById 메소드를 사용해 데이터 조회 없으면 예외 처리
     }
     public void delete(long id){
-        blogRepository.deleteById(id); //jparepository의 deleteById 메소드를 사용해 데이터 삭제
+        Article article = blogRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("not found : " + id)); //jparepository의 deleteById 메소드를 사용해 데이터 삭제
+        authorizeArticleAuthor(article);
+        blogRepository.delete(article);
+    }
+
+    private static void authorizeArticleAuthor(Article article) {
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        if(!article.getAuthor().equals(userName)){
+            throw new IllegalArgumentException("not authorized");
+        }
     }
 
     @Transactional //매칭한 메서드를 하나의 트렌젝션으로 묶는 역할 + 트렌젝션이란 데이터 베이스의 데이터를 바꾸기 위해 묶은 작업 단위

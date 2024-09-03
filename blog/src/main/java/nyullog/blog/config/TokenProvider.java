@@ -34,7 +34,7 @@ public class TokenProvider {
                 .setIssuedAt(now) // 내용 발행 시간을 현재 시간으로 설정
                 .setSubject(user.getEmail()) // 내용 주제를 user의 email로 설정
                 .setExpiration(expiry) // 내용 만료 시간을 파라미터로 받은 값으로 설정
-                .claim("user", user) // 클레임 id : 유저 id
+                .claim("id", user.getId()) // 클레임 id : 유저 id
                 .signWith(SignatureAlgorithm.HS256,jwtProperties.getSecretKey()) // HS256방식으로 secretKey와 함께 해시값을 서명
                 .compact();
     }
