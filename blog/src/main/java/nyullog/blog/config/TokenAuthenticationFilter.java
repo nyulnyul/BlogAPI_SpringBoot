@@ -23,7 +23,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         String authorizationHeader = request.getHeader(HEADER_AUTHORIZATION); //1. HEADER_AUTHORIZATION 키의 값 조회
         String token = getAccessToken(authorizationHeader); // 가져온 값에서 접두사 제거
 
-        if(tokenProvider.vaildToken(token)){ //가져온 토큰이 유효한지 확인하고 유효시엔 인증정보 설정
+        if(tokenProvider.validToken(token)){ //가져온 토큰이 유효한지 확인하고 유효시엔 인증정보 설정
             Authentication authentication = tokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
